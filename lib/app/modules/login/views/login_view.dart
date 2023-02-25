@@ -7,8 +7,11 @@ import 'package:lottie/lottie.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
+  // const LoginView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    LoginController controller = Get.put(LoginController());
     return Scaffold(
       backgroundColor: HexColor('#feeee8'),
       body: SingleChildScrollView(
@@ -21,9 +24,10 @@ class LoginView extends GetView<LoginController> {
                 fit: BoxFit.cover,
               ),
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
+                controller: controller.emailController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Email',
@@ -31,7 +35,7 @@ class LoginView extends GetView<LoginController> {
                 ),
               ),
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(
                 left: 15.0,
                 right: 15.0,
@@ -40,6 +44,7 @@ class LoginView extends GetView<LoginController> {
               ),
               child: TextField(
                 obscureText: true,
+                controller: controller.passwordController,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Password',
@@ -58,7 +63,9 @@ class LoginView extends GetView<LoginController> {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  controller.loginNow();
+                },
                 child: const Text(
                   'Login',
                   style: TextStyle(
