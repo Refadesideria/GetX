@@ -10,9 +10,9 @@ class DashboardController extends GetxController {
   final _getConnect = GetConnect();
   //TODO: Implement DashboardController
 
-  Future<HeadlineResponse> getHeadline() async {
+  Future<headlineResponse> getHeadline() async {
     final response = await _getConnect.get(BaseUrl.headline);
-    return HeadlineResponse.fromJson(jsonDecode(response.body));
+    return headlineResponse.fromJson(jsonDecode(response.body));
   }
 
   Future<entertainmentResponse> getEntertaiment() async {
