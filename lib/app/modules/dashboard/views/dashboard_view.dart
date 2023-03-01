@@ -10,6 +10,8 @@ import '../../../data/sports_response.dart';
 import '../../../data/technology_response.dart';
 import '../../home/views/home_view.dart';
 import '../controllers/dashboard_controller.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DashboardView extends GetView<DashboardController> {
   @override
@@ -21,10 +23,9 @@ class DashboardView extends GetView<DashboardController> {
     return SafeArea(
       // Widget SafeArea menempatkan semua konten widget ke dalam area yang aman (safe area) dari layar.
       child: DefaultTabController(
-        length: 4,
+        length: 5,
         // Widget DefaultTabController digunakan untuk mengatur tab di aplikasi.
         child: Scaffold(
-          // Widget Scaffold digunakan sebagai struktur dasar aplikasi.
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
               await auth.erase();
@@ -33,6 +34,7 @@ class DashboardView extends GetView<DashboardController> {
             backgroundColor: Colors.redAccent,
             child: const Icon(Icons.logout_rounded),
           ),
+          // Widget Scaffold digunakan sebagai struktur dasar aplikasi.
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(120.0),
             // Widget PreferredSize digunakan untuk menyesuaikan tinggi appBar.
@@ -84,7 +86,7 @@ class DashboardView extends GetView<DashboardController> {
                       Tab(text: "Teknologi"),
                       Tab(text: "Olahraga"),
                       Tab(text: "Hiburan"),
-                      // Tab(text: "Profile"),
+                      Tab(text: "Profile"),
                     ],
                   ),
                 ),
@@ -92,13 +94,12 @@ class DashboardView extends GetView<DashboardController> {
             ),
           ),
           body: TabBarView(
-            // Widget TabBarView digunakan untuk menampilkan konten yang terkait dengan masing-masing tab.
             children: [
-              // Properti children digunakan untuk menentukan konten yang akan ditampilkan pada masing-masing tab.
               headline(controller, scrollController),
               technology(controller, scrollController),
-              entertainment(controller, scrollController),
               sports(controller, scrollController),
+              entertaiment(controller, scrollController),
+              profile()
             ],
           ),
         ),
@@ -234,7 +235,7 @@ class DashboardView extends GetView<DashboardController> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Widget untuk menampilkan gambar headline dengan menggunakan url gambar dari data yang diterima
+                  // Widget untuk menampilkan gambar technology dengan menggunakan url gambar dari data yang diterima
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
                     child: Image.network(
@@ -252,7 +253,7 @@ class DashboardView extends GetView<DashboardController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Widget untuk menampilkan judul headline dengan menggunakan data yang diterima
+                        // Widget untuk menampilkan judul technology dengan menggunakan data yang diterima
                         Text(
                           snapshot.data!.data![index].title.toString(),
                           overflow: TextOverflow.ellipsis,
@@ -261,95 +262,7 @@ class DashboardView extends GetView<DashboardController> {
                         const SizedBox(
                           height: 2,
                         ),
-                        // Widget untuk menampilkan informasi author dan sumber headline dengan menggunakan data yang diterima
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                                'Author : ${snapshot.data!.data![index].author}'),
-                            Text('Sumber :${snapshot.data!.data![index].name}'),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
-  FutureBuilder<entertainmentResponse> entertainment(
-      DashboardController controller, ScrollController scrollController) {
-    return FutureBuilder<entertainmentResponse>(
-      // Mendapatkan future data headline dari controller
-      future: controller.getEntertaiment(),
-      builder: (context, snapshot) {
-        // Jika koneksi masih dalam keadaan waiting/tunggu, tampilkan widget Lottie loading
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: Lottie.network(
-              // Menggunakan animasi Lottie untuk tampilan loading
-              'https://gist.githubusercontent.com/olipiskandar/4f08ac098c81c32ebc02c55f5b11127b/raw/6e21dc500323da795e8b61b5558748b5c7885157/loading.json',
-              repeat: true,
-              width: MediaQuery.of(context).size.width / 1,
-            ),
-          );
-        }
-        // Jika tidak ada data yang diterima, tampilkan pesan "Tidak ada data"
-        if (!snapshot.hasData) {
-          return const Center(child: Text("Tidak ada data"));
-        }
-
-        // Jika data diterima, tampilkan daftar headline dalam bentuk ListView.Builder
-        return ListView.builder(
-          itemCount: snapshot.data!.data!.length,
-          controller: scrollController,
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            // Tampilan untuk setiap item headline dalam ListView.Builder
-            return Container(
-              padding: const EdgeInsets.only(
-                top: 5,
-                left: 8,
-                right: 8,
-                bottom: 5,
-              ),
-              height: 110,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Widget untuk menampilkan gambar headline dengan menggunakan url gambar dari data yang diterima
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Image.network(
-                      snapshot.data!.data![index].urlToImage.toString(),
-                      height: 130,
-                      width: 130,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        // Widget untuk menampilkan judul headline dengan menggunakan data yang diterima
-                        Text(
-                          snapshot.data!.data![index].title.toString(),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                        ),
-                        const SizedBox(
-                          height: 2,
-                        ),
-                        // Widget untuk menampilkan informasi author dan sumber headline dengan menggunakan data yang diterima
+                        // Widget untuk menampilkan informasi author dan sumber technology dengan menggunakan data yang diterima
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -457,4 +370,159 @@ class DashboardView extends GetView<DashboardController> {
       },
     );
   }
+
+  FutureBuilder<entertainmentResponse> entertaiment(
+      DashboardController controller, ScrollController scrollController) {
+    return FutureBuilder<entertainmentResponse>(
+      // Mendapatkan future data headline dari controller
+      future: controller.getEntertaiment(),
+      builder: (context, snapshot) {
+        // Jika koneksi masih dalam keadaan waiting/tunggu, tampilkan widget Lottie loading
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: Lottie.network(
+              // Menggunakan animasi Lottie untuk tampilan loading
+              'https://gist.githubusercontent.com/olipiskandar/4f08ac098c81c32ebc02c55f5b11127b/raw/6e21dc500323da795e8b61b5558748b5c7885157/loading.json',
+              repeat: true,
+              width: MediaQuery.of(context).size.width / 1,
+            ),
+          );
+        }
+        // Jika tidak ada data yang diterima, tampilkan pesan "Tidak ada data"
+        if (!snapshot.hasData) {
+          return const Center(child: Text("Tidak ada data"));
+        }
+
+        // Jika data diterima, tampilkan daftar headline dalam bentuk ListView.Builder
+        return ListView.builder(
+          itemCount: snapshot.data!.data!.length,
+          controller: scrollController,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            // Tampilan untuk setiap item headline dalam ListView.Builder
+            return Container(
+              padding: const EdgeInsets.only(
+                top: 5,
+                left: 8,
+                right: 8,
+                bottom: 5,
+              ),
+              height: 110,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Widget untuk menampilkan gambar headline dengan menggunakan url gambar dari data yang diterima
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image.network(
+                      snapshot.data!.data![index].urlToImage.toString(),
+                      height: 130,
+                      width: 130,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Widget untuk menampilkan judul headline dengan menggunakan data yang diterima
+                        Text(
+                          snapshot.data!.data![index].title.toString(),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                        ),
+                        const SizedBox(
+                          height: 2,
+                        ),
+                        // Widget untuk menampilkan informasi author dan sumber headline dengan menggunakan data yang diterima
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                                'Author : ${snapshot.data!.data![index].author}'),
+                            Text('Sumber :${snapshot.data!.data![index].name}'),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+SafeArea profile() {
+  return SafeArea(
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const SizedBox(height: 20),
+        Container(
+          width: 150,
+          height: 150,
+          child: Lottie.network(
+              "https://assets5.lottiefiles.com/packages/lf20_jpxsQh.json"),
+        ),
+        const SizedBox(height: 20),
+        Text(
+          'Visit Me',
+          style: GoogleFonts.acme(fontSize: 24),
+        ),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              icon: const FaIcon(
+                FontAwesomeIcons.instagram,
+                size: 30,
+              ),
+              onPressed: () {
+                // add twitter url here
+              },
+            ),
+            const SizedBox(width: 20),
+            IconButton(
+              icon: const FaIcon(
+                FontAwesomeIcons.telegram,
+                size: 30,
+              ),
+              onPressed: () {
+                // add linkedin url here
+              },
+            ),
+            const SizedBox(width: 20),
+            IconButton(
+              icon: const FaIcon(
+                FontAwesomeIcons.github,
+                size: 30,
+              ),
+              onPressed: () {
+                // add github url here
+              },
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        // ignore: prefer_const_constructors
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            'Hello... Nama Saya Refa Desi Deria, Saya Seorang Pelajar, Saya Memiliki Keahlian Dalam Pengembangan Website Dengan Menggunakan bahasa pemrograman PHP dan Framewrork Laravel,juga menggunakan HTML,CSS,JavaScript.Dan saya pun cukup berpengalaman menggunakan Flutter, Saya selalu ingin mencoba hal baru dalam hidup.Dan selalu bersemangat dalam menjalankan sesuatu',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.acme(fontSize: 16),
+          ),
+        ),
+      ],
+    ),
+  );
 }

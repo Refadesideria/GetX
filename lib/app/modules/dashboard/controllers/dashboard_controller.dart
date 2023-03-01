@@ -15,19 +15,19 @@ class DashboardController extends GetxController {
     return headlineResponse.fromJson(jsonDecode(response.body));
   }
 
-  Future<entertainmentResponse> getEntertaiment() async {
-    final response = await _getConnect.get(BaseUrl.entertainment);
-    return entertainmentResponse.fromJson(jsonDecode(response.body));
+  Future<TechnologyResponse> getTechnology() async {
+    final response = await _getConnect.get(BaseUrl.technology);
+    return TechnologyResponse.fromJson(jsonDecode(response.body));
   }
 
   Future<SportsResponse> getSports() async {
-    final response = await _getConnect.get(BaseUrl.headline);
+    final response = await _getConnect.get(BaseUrl.sports);
     return SportsResponse.fromJson(jsonDecode(response.body));
   }
 
-  Future<TechnologyResponse> getTechnology() async {
-    final response = await _getConnect.get(BaseUrl.headline);
-    return TechnologyResponse.fromJson(jsonDecode(response.body));
+  Future<entertainmentResponse> getEntertaiment() async {
+    final response = await _getConnect.get(BaseUrl.entertainment);
+    return entertainmentResponse.fromJson(jsonDecode(response.body));
   }
 
   final count = 0.obs;
