@@ -12,101 +12,9 @@ import '../../home/views/home_view.dart';
 import '../controllers/dashboard_controller.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DashboardView extends GetView<DashboardController> {
-  @override
-  Widget build(BuildContext context) {
-    DashboardController controller = Get.put(DashboardController());
-    final ScrollController scrollController = ScrollController();
-    final auth = GetStorage();
-    // Mendefinisikan sebuah widget bernama build dengan tipe StatelessWidget yang memerlukan BuildContext.
-    return SafeArea(
-      // Widget SafeArea menempatkan semua konten widget ke dalam area yang aman (safe area) dari layar.
-      child: DefaultTabController(
-        length: 5,
-        // Widget DefaultTabController digunakan untuk mengatur tab di aplikasi.
-        child: Scaffold(
-          floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              await auth.erase();
-              Get.offAll(() => HomeView());
-            },
-            backgroundColor: Colors.redAccent,
-            child: const Icon(Icons.logout_rounded),
-          ),
-          // Widget Scaffold digunakan sebagai struktur dasar aplikasi.
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(120.0),
-            // Widget PreferredSize digunakan untuk menyesuaikan tinggi appBar.
-            child: Column(
-              // Widget Column adalah widget yang menyatukan widget-childnya secara vertikal.
-              children: [
-                ListTile(
-                  // Widget ListTile digunakan untuk menampilkan tampilan list sederhana.
-                  title: const Text(
-                    "Hallo!",
-                    textAlign: TextAlign.end,
-                    // Properti textAlign digunakan untuk menentukan perataan teks.
-                  ),
-                  subtitle: Text(
-                    auth.read('full_name').toString(),
-                    textAlign: TextAlign.end,
-                  ),
-                  trailing: Container(
-                    // Widget Container digunakan untuk mengatur tampilan konten dalam kotak.
-                    margin: const EdgeInsets.only(right: 10),
-                    // Properti margin digunakan untuk menentukan jarak dari tepi kontainer ke tepi widget yang di dalamnya.
-                    width: 50.0,
-                    height: 50.0,
-                    child: Lottie.network(
-                      // Widget Lottie.network digunakan untuk menampilkan animasi Lottie dari suatu URL.
-                      'https://gist.githubusercontent.com/olipiskandar/2095343e6b34255dcfb042166c4a3283/raw/d76e1121a2124640481edcf6e7712130304d6236/praujikom_kucing.json',
-                      fit: BoxFit.cover,
-                      // Properti fit digunakan untuk menyesuaikan ukuran konten agar sesuai dengan kontainer.
-                    ),
-                  ),
-                ),
-                const Align(
-                  // Widget Align digunakan untuk menempatkan widget pada posisi tertentu di dalam widget induk.
-                  alignment: Alignment.topLeft,
-                  // Properti alignment digunakan untuk menentukan letak widget di dalam widget induk.
-                  child: TabBar(
-                    // Widget TabBar digunakan untuk menampilkan tab di aplikasi.
-                    labelColor: Colors.black,
-                    // Properti labelColor digunakan untuk menentukan warna teks tab yang dipilih.
-                    indicatorSize: TabBarIndicatorSize.label,
-                    // Properti indicatorSize digunakan untuk menentukan ukuran indikator tab yang dipilih.
-                    isScrollable: true,
-                    // Properti isScrollable digunakan untuk menentukan apakah tab dapat di-scroll atau tidak.
-                    indicatorColor: Colors.white,
-                    // Properti indicatorColor digunakan untuk menentukan warna indikator tab yang dipilih.
-                    tabs: [
-                      // Properti tabs digunakan untuk menentukan teks yang akan ditampilkan pada masing-masing tab.
-                      Tab(text: "Headline"),
-                      Tab(text: "Teknologi"),
-                      Tab(text: "Olahraga"),
-                      Tab(text: "Hiburan"),
-                      Tab(text: "Profile"),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          body: TabBarView(
-            children: [
-              headline(controller, scrollController),
-              technology(controller, scrollController),
-              sports(controller, scrollController),
-              entertaiment(controller, scrollController),
-              profile()
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   FutureBuilder<headlineResponse> headline(
       DashboardController controller, ScrollController scrollController) {
     return FutureBuilder<headlineResponse>(
@@ -458,6 +366,99 @@ class DashboardView extends GetView<DashboardController> {
       },
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    DashboardController controller = Get.put(DashboardController());
+    final ScrollController scrollController = ScrollController();
+    final auth = GetStorage();
+    // Mendefinisikan sebuah widget bernama build dengan tipe StatelessWidget yang memerlukan BuildContext.
+    return SafeArea(
+      // Widget SafeArea menempatkan semua konten widget ke dalam area yang aman (safe area) dari layar.
+      child: DefaultTabController(
+        length: 5,
+        // Widget DefaultTabController digunakan untuk mengatur tab di aplikasi.
+        child: Scaffold(
+          floatingActionButton: FloatingActionButton(
+            onPressed: () async {
+              await auth.erase();
+              Get.offAll(() => HomeView());
+            },
+            backgroundColor: Colors.redAccent,
+            child: const Icon(Icons.logout_rounded),
+          ),
+          // Widget Scaffold digunakan sebagai struktur dasar aplikasi.
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(120.0),
+            // Widget PreferredSize digunakan untuk menyesuaikan tinggi appBar.
+            child: Column(
+              // Widget Column adalah widget yang menyatukan widget-childnya secara vertikal.
+              children: [
+                ListTile(
+                  // Widget ListTile digunakan untuk menampilkan tampilan list sederhana.
+                  title: const Text(
+                    "Hallo!",
+                    textAlign: TextAlign.end,
+                    // Properti textAlign digunakan untuk menentukan perataan teks.
+                  ),
+                  subtitle: Text(
+                    auth.read('full_name').toString(),
+                    textAlign: TextAlign.end,
+                  ),
+                  trailing: Container(
+                    // Widget Container digunakan untuk mengatur tampilan konten dalam kotak.
+                    margin: const EdgeInsets.only(right: 10),
+                    // Properti margin digunakan untuk menentukan jarak dari tepi kontainer ke tepi widget yang di dalamnya.
+                    width: 50.0,
+                    height: 50.0,
+                    child: Lottie.network(
+                      // Widget Lottie.network digunakan untuk menampilkan animasi Lottie dari suatu URL.
+                      'https://gist.githubusercontent.com/olipiskandar/2095343e6b34255dcfb042166c4a3283/raw/d76e1121a2124640481edcf6e7712130304d6236/praujikom_kucing.json',
+                      fit: BoxFit.cover,
+                      // Properti fit digunakan untuk menyesuaikan ukuran konten agar sesuai dengan kontainer.
+                    ),
+                  ),
+                ),
+                const Align(
+                  // Widget Align digunakan untuk menempatkan widget pada posisi tertentu di dalam widget induk.
+                  alignment: Alignment.topLeft,
+                  // Properti alignment digunakan untuk menentukan letak widget di dalam widget induk.
+                  child: TabBar(
+                    // Widget TabBar digunakan untuk menampilkan tab di aplikasi.
+                    labelColor: Colors.black,
+                    // Properti labelColor digunakan untuk menentukan warna teks tab yang dipilih.
+                    indicatorSize: TabBarIndicatorSize.label,
+                    // Properti indicatorSize digunakan untuk menentukan ukuran indikator tab yang dipilih.
+                    isScrollable: true,
+                    // Properti isScrollable digunakan untuk menentukan apakah tab dapat di-scroll atau tidak.
+                    indicatorColor: Colors.white,
+                    // Properti indicatorColor digunakan untuk menentukan warna indikator tab yang dipilih.
+                    tabs: [
+                      // Properti tabs digunakan untuk menentukan teks yang akan ditampilkan pada masing-masing tab.
+                      Tab(text: "Headline"),
+                      Tab(text: "Teknologi"),
+                      Tab(text: "Olahraga"),
+                      Tab(text: "Hiburan"),
+                      Tab(text: "Profile"),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          body: TabBarView(
+            children: [
+              headline(controller, scrollController),
+              technology(controller, scrollController),
+              sports(controller, scrollController),
+              entertaiment(controller, scrollController),
+              profile()
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 SafeArea profile() {
@@ -470,7 +471,7 @@ SafeArea profile() {
           width: 150,
           height: 150,
           child: Lottie.network(
-              "https://assets5.lottiefiles.com/packages/lf20_jpxsQh.json"),
+              "https://assets10.lottiefiles.com/packages/lf20_vw8drq7y.json"),
         ),
         const SizedBox(height: 20),
         Text(
@@ -482,33 +483,28 @@ SafeArea profile() {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             IconButton(
-              icon: const FaIcon(
-                FontAwesomeIcons.instagram,
-                size: 30,
-              ),
-              onPressed: () {
-                // add twitter url here
+              icon: const Icon(FontAwesomeIcons.instagram),
+              color: Colors.black,
+              onPressed: () async {
+                if (!await launchUrl(Uri.parse(
+                    'https://instagram.com/refadsid?igshid=YmMyMTA2M2Y='))) {
+                  // Uri.parse('https://instagram.com/nzyydelr?igshid=YmJhNjkzNzY='))) {
+                  throw Exception('Could not launch');
+                }
               },
+              iconSize: 40,
             ),
-            const SizedBox(width: 20),
             IconButton(
-              icon: const FaIcon(
-                FontAwesomeIcons.telegram,
-                size: 30,
-              ),
-              onPressed: () {
-                // add linkedin url here
+              icon: const Icon(FontAwesomeIcons.github),
+              color: Colors.black,
+              onPressed: () async {
+                if (!await launchUrl(
+                    Uri.parse('https://github.com/Refadesideria/GetX'))) {
+                  // Uri.parse('https://instagram.com/nzyydelr?igshid=YmJhNjkzNzY='))) {
+                  throw Exception('Could not launch');
+                }
               },
-            ),
-            const SizedBox(width: 20),
-            IconButton(
-              icon: const FaIcon(
-                FontAwesomeIcons.github,
-                size: 30,
-              ),
-              onPressed: () {
-                // add github url here
-              },
+              iconSize: 40,
             ),
           ],
         ),
@@ -517,7 +513,7 @@ SafeArea profile() {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Text(
-            'Hello... Nama Saya Refa Desi Deria, Saya Seorang Pelajar, Saya Memiliki Keahlian Dalam Pengembangan Website Dengan Menggunakan bahasa pemrograman PHP dan Framewrork Laravel,juga menggunakan HTML,CSS,JavaScript.Dan saya pun cukup berpengalaman menggunakan Flutter, Saya selalu ingin mencoba hal baru dalam hidup.Dan selalu bersemangat dalam menjalankan sesuatu',
+            'Hallo... Nama Saya Refa Desi Deria. Saya Seorang Pelajar, Saya Memiliki Keahlian Dalam Pengembangan Website Dengan Menggunakan bahasa pemrograman PHP dan Framework Laravel,juga menggunakan HTML,CSS,JavaScript.Dan saya pun cukup berpengalaman menggunakan Flutter, Saya selalu ingin mencoba hal baru dalam hidup.Dan selalu bersemangat dalam menjalankan sesuatu',
             textAlign: TextAlign.center,
             style: GoogleFonts.acme(fontSize: 16),
           ),
