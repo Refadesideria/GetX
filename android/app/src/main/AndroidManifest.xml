@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.project.ujikom.flutter_getx">
    <application
-        android:label="Refa News"
+        android:label="Helmaa News"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
